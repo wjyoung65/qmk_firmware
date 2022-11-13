@@ -120,26 +120,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #ifdef USE_MIRYOKU
     _______, _______,  _______,  _______, _______, _______, KC_MINS,  KC_0,    KC_DOT,  _______,  _______, _______
 #else
-    _______, _______,  _______,  _______, _______, _______, KC_UNDS,  KC_0,    KC_DOT,  _______,  _______, _______
+    DF(CMK), KC_BTN2,  KC_BTN3,  KC_BTN1, _______, _______, KC_UNDS,  KC_0,    KC_DOT,  _______,  _______, _______
 #endif
   ),
   [SYM] = LAYOUT(
     _______, _______,  _______,  _______, _______,                    KC_LCBR, KC_AMPR, KC_ASTR,  KC_LPRN, KC_RCBR,
     _______, _______,  _______,  _______, _______,                    KC_PLUS, KC_DLR,  KC_PERC,  KC_CIRC, KC_COLN,
     _______, _______,  _______,  _______, _______, _______, _______,  KC_PIPE, KC_EXLM, KC_AT,    KC_HASH, KC_TILD,
-    _______, _______,  _______,  _______, _______, _______, KC_UNDS,  KC_LPRN, KC_RPRN, _______,  _______, _______
+    DF(CMK), _______,  _______,  _______, _______, _______, KC_UNDS,  KC_LPRN, KC_RPRN, _______,  _______, _______
   ),
   [FUN] = LAYOUT(
     _______, _______,  _______,  _______, _______,                    KC_PSCR, KC_F7,   KC_F8,    KC_F9,   KC_F12,
     _______, _______,  _______,  _______, _______,                    KC_SCRL, KC_F4,   KC_F5,    KC_F6,   KC_F11,
     _______, _______,  _______,  _______, _______, _______, _______,  KC_PAUS, KC_F1,   KC_F2,    KC_F3,   KC_F10,
-    _______, _______,  _______,  _______, _______, _______, XXXXXXX,  XXXXXXX, KC_APP,  _______,  _______, _______
+    DF(CMK), _______,  _______,  _______, _______, _______, XXXXXXX,  XXXXXXX, KC_APP,  _______,  _______, _______
   ),
   [NAV] = LAYOUT(
     KC_PGUP, KC_HOME,  KC_UP,    KC_END,  KC_INS,                     XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,
     KC_PGDN, KC_LEFT,  KC_DOWN,  KC_RGHT, CAPSWRD,                    KC_H,    KC_J,    KC_K,     KC_L,    KC_SCLN,
     _______, _______,  _______,  _______, KC_CAPS, _______, _______,  XXXXXXX, KC_N,    XXXXXXX,  XXXXXXX, XXXXXXX,
-    DF(QWE), DF(CMK),  _______,  _______, _______, _______, _______,  _______, _______, _______,  _______, _______
+    DF(QWE), DF(CMK),  DF(NUM),  _______, _______, _______, _______,  _______, _______, _______,  _______, _______
     /* set default layer qwerty or colemak */
   ),
 };
