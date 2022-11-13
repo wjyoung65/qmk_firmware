@@ -1,0 +1,4 @@
+
+CAPS_WORD_ENABLE = yes
+COMMNAD_ENABLE = no
+
