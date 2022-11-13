@@ -12,17 +12,16 @@
 
 #include QMK_KEYBOARD_H
 
-#define USE_MIRYOKU  // otherwise my map
+//#define USE_MIRYOKU  // otherwise my map
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 #define CMK 0  // default base: colemak
 #define QWE 1  // alternate base: qwerty
-#define VIM 2  // vim navigation layer. Yeah, I'm wasting an entire layer for hjkl
-#define NUM 3
-#define SYM 4
-#define FUN 5
-#define NAV 6
-#define MED 7
+#define NUM 2
+#define SYM 3
+#define FUN 4
+#define NAV 5
+#define MED 6
 
 // Some handy macros to keep the keymaps clean and easier to maintain
 
@@ -64,22 +63,20 @@
 #else  // my thumb keys
 
 // left-side thumb keys: hold for a layer shift, tap for normal key
-#define LT_LBRC LT(FUN, KC_LBRC)
-#define LT_RBRC LT(NUM, KC_RBRC)
-#define LT_TAB  LT(SYM, KC_TAB)
+#define LT_DEL  LT(FUN, KC_DEL)
+#define LT_SPC  LT(NUM, KC_SPC) // trying two spacebars
+#define LT_BSPC LT(SYM, KC_BSPC)
 
-// right-side thumb keys: hold for a layer shift, tap for normal key
-#define LT_QUOT LT(NAV, KC_QUOT)
-#define LT_SPC  KC_SPC
-#define LT_UNDS KC_UNDS // note that KC_UNDS cannot be used with a MT or LT
-
+#define LT_TAB  LT(NAV, KC_TAB)
+//#define LT_SPC  KC_SPC
+#define LT_ESC  KC_ESC
 #endif
 
 // Left-side bottom corner key: hold for shift, tap for escape
 //#define BT_ESC  LSFT_T(KC_ESC)
 
 // Left-side bottom corner key: hold for layer shift, tap for escape
-#define BT_ESC  LT(VIM, KC_ESC)
+#define BT_ESC  LT(NUM, KC_ESC)
 #define QT_ESC  LSFT_T(KC_ESC)
 
 // Right-side bottom corner key: hold for shift, tap for enter
@@ -98,17 +95,13 @@ enum custom_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [CMK] = LAYOUT(
-#ifdef USE_MIRYOKU
     KC_Q,    KC_W,     KC_F,     KC_P,    KC_B,                       KC_J,    KC_L,    KC_U,     KC_Y,    KC_QUOT,
-#else
-    KC_Q,    KC_W,     KC_F,     KC_P,    KC_B,                       KC_J,    KC_L,    KC_U,     KC_Y,    KC_BSPC,
-#endif
     MT_A,    MT_R,     MT_S,     MT_T,    KC_G,                       KC_M,    MT_N,    MT_E,     MT_I,    MT_O,
     KC_Z,    KC_X,     KC_C,     KC_D,    KC_V,    KC_GRV,  KC_BSLS,  KC_K,    KC_H,    KC_COMM,  KC_DOT,  KC_SLSH,
 #ifdef USE_MIRYOKU
     BT_ESC,  KC_LALT,  KC_LGUI,  LT_DEL,  LT_BSPC, LT_ENT,  LT_TAB,   LT_SPC,  LT_ESC,  DB2,      KC_EXLM, BT_ENT
 #else
-    BT_ESC,  KC_LALT,  KC_LGUI,  LT_LBRC, LT_RBRC, LT_TAB,  LT_QUOT,  LT_SPC,  KC_UNDS, DB2,      KC_EXLM, BT_ENT
+    BT_ESC,  KC_LALT,  KC_LGUI,  LT_DEL,  LT_SPC,  LT_BSPC, LT_TAB,   KC_SPC,  LT_ESC,  DB2,      KC_EXLM, BT_ENT
 #endif
   ),
   [QWE] = LAYOUT(
@@ -117,43 +110,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_Z,    KC_X,     KC_C,     KC_V,    KC_B,    KC_GRV,  KC_BSLS,  KC_N,    KC_M,    KC_COMM,  KC_DOT,  KC_SLSH,
     BT_ESC,  KC_LALT,  KC_LGUI,  LT_DEL,  LT_BSPC, LT_TAB,  LT_TAB,   LT_SPC,  KC_ESC,  DB2,      KC_EXLM, BT_ENT
   ),
-  [VIM] = LAYOUT(
-    _______, _______,  _______,  _______, _______,                    KC_B,    KC_0,    KC_DLR,   KC_E,    _______,
-    _______, _______,  _______,  _______, _______,                    KC_H,    KC_J,    KC_K,     KC_L,    XXXXXXX,
-    _______, _______,  _______,  _______, _______, _______, _______,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,
-    _______, _______,  _______,  _______, _______, _______, _______,  _______, _______, _______,  _______, _______
-  ),
-#ifdef USE_MIRYOKU
   [NUM] = LAYOUT(
     _______, _______,  _______,  _______, _______,                    KC_LBRC, KC_7,    KC_8,     KC_9,    KC_RBRC,
     _______, _______,  _______,  _______, _______,                    KC_EQL,  KC_4,    KC_5,     KC_6,    KC_SCLN,
     _______, _______,  _______,  _______, _______, _______, _______,  KC_BSLS, KC_1,    KC_2,     KC_3,    KC_GRV,
     _______, _______,  _______,  _______, _______, _______, KC_MINS,  KC_0,    KC_DOT,  _______,  _______, _______
   ),
-#else
-  [NUM] = LAYOUT(
-    _______, _______,  _______,  _______, _______,                    KC_ASTR, KC_7,    KC_8,     KC_9,    KC_DEL,
-    _______, _______,  _______,  _______, _______,                    KC_PLUS, KC_4,    KC_5,     KC_6,    KC_SCLN,
-    _______, _______,  _______,  _______, _______, _______, _______,  KC_EQL,  KC_1,    KC_2,     KC_3,    KC_GRV,
-    _______, _______,  _______,  _______, _______, _______, KC_MINS,  KC_0,    KC_DOT,  _______,  _______, _______
-  ),
-#endif
-#ifdef USE_MIRYOKU
   [SYM] = LAYOUT(
     _______, _______,  _______,  _______, _______,                    KC_LCBR, KC_AMPR, KC_ASTR,  KC_LPRN, KC_RCBR,
     _______, _______,  _______,  _______, _______,                    KC_PLUS, KC_DLR,  KC_PERC,  KC_CIRC, KC_COLN,
     _______, _______,  _______,  _______, _______, _______, _______,  KC_PIPE, KC_EXLM, KC_AT,    KC_HASH, KC_TILD,
     _______, _______,  _______,  _______, _______, _______, KC_UNDS,  KC_LPRN, KC_RPRN, _______,  _______, _______
   ),
-#else
-#error this needs fixing
-  [SYM] = LAYOUT(
-    _______, _______,  _______,  _______, _______,                    KC_LBRC, KC_AMPR, KC_ASTR,  KC_LPRN, KC_RBRC,
-    _______, _______,  _______,  _______, _______,                    _______, KC_DLR,  KC_PERC,  KC_LPRN, _______,
-    _______, _______,  _______,  _______, _______, _______, _______,  _______, KC_DLR,  KC_PERC,  KC_CIRC, KC_COLN,
-    _______, _______,  _______,  _______, _______, _______, KC_UNDS,  KC_LPRN, KC_RPRN, _______,  _______, _______
-  ),
-#endif
   [FUN] = LAYOUT(
     _______, _______,  _______,  _______, _______,                    KC_PSCR, KC_F7,   KC_F8,    KC_F9,   KC_F12,
     _______, _______,  _______,  _______, _______,                    KC_SCRL, KC_F4,   KC_F5,    KC_F6,   KC_F11,
@@ -162,8 +130,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [NAV] = LAYOUT(
     KC_PGUP, KC_HOME,  KC_UP,    KC_END,  KC_INS,                     _______, _______, _______,  _______, _______,
-    KC_PGDN, KC_LEFT,  KC_DOWN,  KC_RGHT, CAPSWRD,                    _______, _______, _______,  _______, _______,
-    _______, _______,  _______,  _______, KC_CAPS, _______, _______,  _______, _______, _______,  _______, _______,
+    KC_PGDN, KC_LEFT,  KC_DOWN,  KC_RGHT, CAPSWRD,                    KC_H,    KC_J,    KC_K,     KC_L,    KC_SCLN,
+    _______, _______,  _______,  _______, KC_CAPS, _______, _______,  _______, KC_N,    _______,  _______, _______,
     DF(QWE), DF(CMK),  _______,  _______, _______, _______, _______,  _______, _______, _______,  _______, _______
     /* set default layer qwerty or colemak */
   ),
