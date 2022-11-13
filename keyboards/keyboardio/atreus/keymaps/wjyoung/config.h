@@ -1,7 +1,9 @@
+#pragma once
+
 #ifndef CONFIG_USER_H
 #define CONFIG_USER_H
 
-#include "../../config.h"
+//#include "../../config.h"
 
 // Recommended when using Mod-Tap on alphanumeric keys to 
 // avoid hold function taking precendence when the next key
@@ -17,7 +19,9 @@
 #endif
 #define TAPPING_TERM 200  // in milliseconds, default is 200
 
-// turn on caps word by pressing both shift keys
-#define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
+// Turns on caps word by pressing both shift keys.
+// Not using: pressing any other modifier turns it off,
+// so does not play well with home row modifiers
+//#define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
 
 #endif
