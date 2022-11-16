@@ -74,11 +74,9 @@
 
 #endif
 
-// Left-side bottom corner key: hold for shift, tap for escape
-//#define BT_ESC  LSFT_T(KC_ESC)
-
 // Left-side bottom corner key: hold for layer shift, tap for escape
-#define BT_ESC  LT(NUM, KC_ESC)
+//#define BT_ESC  LT(NUM, KC_ESC)
+#define BT_ESC  LCTL_T(KC_ESC) // for one-hand ctl-c ctl-v
 #define QT_ESC  LSFT_T(KC_ESC)
 
 // Right-side bottom corner key: hold for shift, tap for enter
