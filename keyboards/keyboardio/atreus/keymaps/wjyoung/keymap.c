@@ -45,10 +45,10 @@
 #define MT_O  RGUI_T(KC_O)
 
 // .. for qwerty
-#define QT_J  RCTL_T(KC_J)
-#define QT_K  RSFT_T(KC_K)
-#define QT_L  RALT_T(KC_L)
-#define QT_P  RGUI_T(KC_P)
+#define QT_J    RCTL_T(KC_J)
+#define QT_K    RSFT_T(KC_K)
+#define QT_L    RALT_T(KC_L)
+#define QT_SCLN RGUI_T(KC_SCLN)
 
 #ifdef USE_MIRYOKU
 // left-side thumb keys: hold for a layer shift, tap for normal key
@@ -65,11 +65,14 @@
 
 // left-side thumb keys: hold for a layer shift, tap for normal key
 #define LT_DEL  LT(FUN, KC_DEL)
-#define LT_QUOT LT(NUM, KC_QUOT)
+//#define LT_QUOT LT(NUM, KC_QUOT)
+#define LT_BSPC LT(NUM, KC_BSPC)
 #define LT_TAB  LT(SYM, KC_TAB)
 
 // right-side thumb keys
 #define LT_MINS LT(NAV, KC_MINS)
+//#define LT_BSPC LT(MOU, KC_BSPC)
+#define LT_QUOT LT(MOU, KC_QUOT)
 #define LT_SCLN LT(MOU, KC_SCLN)
 
 #endif
@@ -95,10 +98,10 @@ enum custom_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [QWE] = LAYOUT(
-    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_BSPC,
-    QT_A,    QT_S,    QT_D,    QT_F,    KC_G,                      KC_H,    QT_J,    QT_K,    QT_L,    QT_P,
+    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
+    QT_A,    QT_S,    QT_D,    QT_F,    KC_G,                      KC_H,    QT_J,    QT_K,    QT_L,    QT_SCLN,
     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_GRV,  KC_BSLS, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-    BT_ESC,  KC_LALT, KC_LGUI, LT_DEL,  LT_QUOT, LT_TAB,  LT_MINS, KC_SPC,  LT_SCLN, DB2,     KC_EXLM, BT_ENT
+    BT_ESC,  KC_LALT, KC_LGUI, LT_DEL,  LT_BSPC, LT_TAB,  LT_MINS, KC_SPC,  LT_QUOT, DB2,     KC_EXLM, BT_ENT
   ),
   [CMK] = LAYOUT(
 #ifdef USE_MIRYOKU
@@ -110,7 +113,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                      KC_J,    KC_L,    KC_U,    KC_Y,    KC_BSPC,
     MT_A,    MT_R,    MT_S,    MT_T,    KC_G,                      KC_M,    MT_N,    MT_E,    MT_I,    MT_O,
     KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_GRV,  KC_BSLS, KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH,
-    BT_ESC,  KC_LALT, KC_LGUI, LT_DEL,  LT_QUOT, LT_TAB,  LT_MINS, KC_SPC,  LT_SCLN, DB2,     KC_EXLM, BT_ENT
+    BT_ESC,  KC_LALT, KC_LGUI, LT_DEL,  LT_BSPC, LT_TAB,  LT_MINS, KC_SPC,  LT_QUOT, DB2,     KC_EXLM, BT_ENT
 #endif
   ),
   [NUM] = LAYOUT(
@@ -167,6 +170,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             SEND_STRING("db2"); // when keycode DB2 is pressed
         } // else do nothing when keycode DB2 is released
         break;
+  #ifdef USING_COLEMAK_BASELAYER
     case RCTL_T(KC_N): // src https://precondition.github.io/home-row-mods#rolled-modifiers-cancellation
         /*
         This piece of code nullifies the effect of Right Shift when tapping
@@ -221,6 +225,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
          /*else process LCTL_T(KC_T) as usual.*/
         return true;
+  #endif
     } // end switch
 
     return true;
