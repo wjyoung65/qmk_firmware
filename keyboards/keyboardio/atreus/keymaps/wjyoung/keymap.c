@@ -50,6 +50,12 @@
 #define QT_L    RALT_T(KC_L)
 #define QT_SCLN RGUI_T(KC_SCLN)
 
+// home row modifiers for qwerty: reduced set, lowered by one row
+#define QT_Z    LSFT_T(KC_Z)
+#define QT_X    LCTL_T(KC_X)
+#define QT_SLSH RSFT_T(KC_SLSH)
+#define QT_DOT  RCTL_T(KC_DOT)
+
 #ifdef USE_MIRYOKU
 // left-side thumb keys: hold for a layer shift, tap for normal key
 #define LT_DEL  LT(FUN, KC_DEL)
@@ -99,8 +105,10 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [QWE] = LAYOUT(
     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
-    QT_A,    QT_S,    QT_D,    QT_F,    KC_G,                      KC_H,    QT_J,    QT_K,    QT_L,    QT_SCLN,
-    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_GRV,  KC_BSLS, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
+//  QT_A,    QT_S,    QT_D,    QT_F,    KC_G,                      KC_H,    QT_J,    QT_K,    QT_L,    QT_SCLN,
+    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,
+//    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_GRV,  KC_BSLS, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
+    QT_Z,    QT_X,    KC_C,    KC_V,    KC_B,    KC_GRV,  KC_BSLS, KC_N,    KC_M,    KC_COMM, QT_DOT,  QT_SLSH,
     BT_ESC,  KC_LALT, KC_LGUI, LT_DEL,  LT_BSPC, LT_TAB,  LT_MINS, KC_SPC,  LT_QUOT, DB2,     KC_EXLM, BT_ENT
   ),
   [CMK] = LAYOUT(
