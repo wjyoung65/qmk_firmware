@@ -33,7 +33,8 @@
 #define MT_T  LCTL_T(KC_T)
 
 // .. for qwerty
-#define QT_A  LGUI_T(KC_A)
+//#define QT_A  LGUI_T(KC_A)
+#define QT_A  LCTL_T(KC_A)
 #define QT_S  LALT_T(KC_S)
 #define QT_D  LSFT_T(KC_D)
 #define QT_F  LCTL_T(KC_F)
@@ -48,13 +49,14 @@
 #define QT_J    RCTL_T(KC_J)
 #define QT_K    RSFT_T(KC_K)
 #define QT_L    RALT_T(KC_L)
-#define QT_SCLN RGUI_T(KC_SCLN)
+//#define QT_SCLN RGUI_T(KC_SCLN)
+#define QT_SCLN RCTL_T(KC_SCLN)
 
 // home row modifiers for qwerty: reduced set, lowered by one row
 #define QT_Z    LSFT_T(KC_Z)
-#define QT_X    LCTL_T(KC_X)
+//#define QT_X    LCTL_T(KC_X)
 #define QT_SLSH RSFT_T(KC_SLSH)
-#define QT_DOT  RCTL_T(KC_DOT)
+//#define QT_DOT  RCTL_T(KC_DOT)
 
 #ifdef USE_MIRYOKU
 // left-side thumb keys: hold for a layer shift, tap for normal key
@@ -64,7 +66,7 @@
 
 // right-side thumb keys: hold for a layer shift, tap for normal key
 #define LT_TAB  LT(NAV, KC_TAB)
-#define LT_SPC  KC_SPC
+#define LT_SPC  LT(NAV, KC_SPC)
 #define LT_ESC  LT(MOU, KC_ESC)
 
 #else  // my thumb keys
@@ -77,19 +79,17 @@
 
 // right-side thumb keys
 #define LT_MINS LT(NAV, KC_MINS)
-//#define LT_BSPC LT(MOU, KC_BSPC)
+#define LT_SPC  LT(NAV, KC_SPC)
 #define LT_QUOT LT(MOU, KC_QUOT)
 #define LT_SCLN LT(MOU, KC_SCLN)
 
 #endif
 
 // Left-side bottom corner key: hold for layer shift, tap for escape
-//#define BT_ESC  LT(NUM, KC_ESC)
 #define BT_ESC  LCTL_T(KC_ESC) // for one-hand ctl-c ctl-v
-#define QT_ESC  LSFT_T(KC_ESC)
 
 // Right-side bottom corner key: hold for shift, tap for enter
-#define BT_ENT  RSFT_T(KC_ENT)
+#define BT_ENT  RCTL_T(KC_ENT)
 
 ////
 // Macro enums
@@ -106,10 +106,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [QWE] = LAYOUT(
     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
 //  QT_A,    QT_S,    QT_D,    QT_F,    KC_G,                      KC_H,    QT_J,    QT_K,    QT_L,    QT_SCLN,
-    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,
+    QT_A,    KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    QT_SCLN,
 //    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_GRV,  KC_BSLS, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-    QT_Z,    QT_X,    KC_C,    KC_V,    KC_B,    KC_GRV,  KC_BSLS, KC_N,    KC_M,    KC_COMM, QT_DOT,  QT_SLSH,
-    BT_ESC,  KC_LALT, KC_LGUI, LT_DEL,  LT_BSPC, LT_TAB,  LT_MINS, KC_SPC,  LT_QUOT, DB2,     KC_EXLM, BT_ENT
+    QT_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_GRV,  KC_BSLS, KC_N,    KC_M,    KC_COMM, KC_DOT,  QT_SLSH,
+    BT_ESC,  KC_LALT, KC_LGUI, LT_DEL,  LT_BSPC, LT_TAB,  LT_MINS, LT_SPC,  LT_QUOT, DB2,     KC_EXLM, BT_ENT
   ),
   [CMK] = LAYOUT(
 #ifdef USE_MIRYOKU
@@ -129,7 +129,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______,                   KC_EQL,  KC_4,    KC_5,    KC_6,    KC_SCLN,
     _______, _______, _______, _______, _______, _______, _______, KC_BSLS, KC_1,    KC_2,    KC_3,    KC_GRV,
 #ifdef USE_MIRYOKU
-    _______, _______, _______, _______, _______, _______, KC_MINS, KC_0,    KC_DOT,  _______, _______, _______
+    _______, _______, _______, KC_BTN3, KC_BTN2, KC_BTN1, KC_MINS, KC_0,    KC_DOT,  _______, _______, _______
 #else
     DF(QWE), _______, _______, KC_BTN3, KC_BTN2, KC_BTN1, KC_UNDS, KC_0,    KC_DOT,  _______, _______, _______
 #endif
@@ -144,13 +144,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______,                   KC_PSCR, KC_F7,   KC_F8,   KC_F9,   KC_F12,
     _______, _______, _______, _______, _______,                   KC_SCRL, KC_F4,   KC_F5,   KC_F6,   KC_F11,
     _______, _______, _______, _______, _______, _______, _______, KC_PAUS, KC_F1,   KC_F2,   KC_F3,   KC_F10,
-    DF(QWE), _______, _______, _______, _______, _______, XXXXXXX, XXXXXXX, KC_APP,  _______, _______, _______
+    DF(QWE), _______, _______, _______, _______, _______, KC_TAB,  KC_SPC,  KC_APP,  _______, _______, _______
   ),
   [NAV] = LAYOUT(
     KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_INS,                    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, CAPSWRD,                   KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,
     _______, _______, _______, _______, KC_CAPS, _______, _______, XXXXXXX, KC_N,    XXXXXXX, XXXXXXX, XXXXXXX,
-    DF(QWE), DF(CMK), DF(NUM), DF(MOU), _______, _______, _______, _______, _______, _______, _______, _______
+    DF(QWE), DF(CMK), DF(NUM), DF(MOU), KC_BSPC, KC_TAB,  _______, _______, _______, _______, _______, _______
     /* set default layer qwerty or colemak */
   ),
   [MOU] = LAYOUT( // mouse
