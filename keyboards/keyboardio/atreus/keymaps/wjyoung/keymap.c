@@ -33,8 +33,8 @@
 #define MT_T  LCTL_T(KC_T)
 
 // .. for qwerty
-//#define QT_A  LGUI_T(KC_A)
-#define QT_A  LCTL_T(KC_A)
+// #define QT_A  LCTL_T(KC_A)
+#define QT_A  LGUI_T(KC_A)
 #define QT_S  LALT_T(KC_S)
 #define QT_D  LSFT_T(KC_D)
 #define QT_F  LCTL_T(KC_F)
@@ -49,8 +49,8 @@
 #define QT_J    RCTL_T(KC_J)
 #define QT_K    RSFT_T(KC_K)
 #define QT_L    RALT_T(KC_L)
-//#define QT_SCLN RGUI_T(KC_SCLN)
-#define QT_SCLN RCTL_T(KC_SCLN)
+#define QT_SCLN RGUI_T(KC_SCLN)
+// #define QT_SCLN RCTL_T(KC_SCLN)
 
 // home row modifiers for qwerty: reduced set, lowered by one row
 #define QT_Z    LSFT_T(KC_Z)
@@ -105,10 +105,13 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [QWE] = LAYOUT(
     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
-//  QT_A,    QT_S,    QT_D,    QT_F,    KC_G,                      KC_H,    QT_J,    QT_K,    QT_L,    QT_SCLN,
+#ifdef BOTTOM_ROW_MODIFIERS
     QT_A,    KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    QT_SCLN,
-//    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_GRV,  KC_BSLS, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
     QT_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_GRV,  KC_BSLS, KC_N,    KC_M,    KC_COMM, KC_DOT,  QT_SLSH,
+#else
+    QT_A,    QT_S,    QT_D,    QT_F,    KC_G,                      KC_H,    QT_J,    QT_K,    QT_L,    QT_SCLN,
+    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_GRV,  KC_BSLS, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
+#endif
     BT_ESC,  KC_LALT, KC_LGUI, LT_DEL,  LT_BSPC, LT_TAB,  LT_MINS, LT_SPC,  LT_QUOT, DB2,     KC_EXLM, BT_ENT
   ),
   [CMK] = LAYOUT(
@@ -237,5 +240,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     } // end switch
 
     return true;
-};
+}
 
+#ifdef DID_NOT_WORK_AS_EXPECTED
+bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    // Keys where I want "tap, then hold" to repeat the tap action.
+    // Key repeating is useful on hjkl in Vim for navigation.
+    case KC_H:
+    case KC_J:
+    case KC_K:
+    case KC_L:
+      return false;
+    // Keys where I don't want key repeating.
+    default:
+      return true;
+  }
+}
+#endif
