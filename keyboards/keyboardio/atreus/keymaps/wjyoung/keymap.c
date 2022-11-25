@@ -78,6 +78,10 @@
 ////
 enum custom_keycodes {
     DB2 = SAFE_RANGE,  // spit out "db2"
+    CTL_Z,
+    CTL_X,
+    CTL_C,
+    CTL_V
 };
 
 ////
@@ -93,28 +97,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [SYM] = LAYOUT(
     KC_ESC,  KC_AT,   KC_UP,   KC_DLR,  KC_PERC,                   KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL,
-    KC_TAB,  KC_LEFT, KC_DOWN, KC_RGHT, KC_CIRC,                   KC_PIPE, KC_DQUO, KC_LCBR, KC_RCBR, KC_QUOT,
-    KC_GRV,  KC_EXLM, KC_HASH, KC_EQL,  KC_PLUS, _______, _______, KC_BSLS, KC_MINS, KC_LBRC, KC_RBRC, KC_TILD,
-    _______, _______, _______, BV_SFT,  TO(NUM), KC_BSPC, KC_RALT, TO(QWE), KC_MINS, KC_QUOT, KC_EXLM, _______
+    KC_TAB,  KC_LEFT, KC_DOWN, KC_RGHT, KC_CIRC,                   KC_PIPE, KC_DQUO, KC_LCBR, KC_RCBR, KC_SCLN,
+    KC_GRV,  KC_EXLM, KC_HASH, KC_EQL,  KC_PLUS, _______, _______, KC_N,    KC_MINS, KC_LBRC, KC_RBRC, KC_TILD,
+    _______, _______, _______, BV_SFT,  TO(NUM), KC_BSPC, TO(QWE), BV_SPC,  KC_MINS, KC_QUOT, KC_EXLM, _______
   ),
   [NUM] = LAYOUT(
     KC_ESC,  KC_HOME, KC_UP,   KC_END,  KC_PGUP,                   KC_ASTR, KC_7,    KC_8,    KC_9,    KC_MINS,
     KC_TAB,  KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN,                   XXXXXXX, KC_4,    KC_5,    KC_6,    KC_PLUS,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, CAPSWRD, XXXXXXX, XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    KC_SLSH,
-    _______, _______, _______, BV_SFT,  TO(FUN), KC_BSPC, KC_RALT, TO(QWE), KC_0,    KC_0,    KC_DOT,  _______
+    CTL_Z,   CTL_X,   CTL_C,   CTL_V,   CAPSWRD, XXXXXXX, XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    KC_SLSH,
+    _______, _______, _______, BV_SFT,  TO(FUN), KC_BSPC, TO(QWE), BV_SPC,  KC_0,    KC_0,    KC_DOT,  _______
   ),
   [FUN] = LAYOUT(
     KC_WH_U, KC_WH_L, KC_MS_U, KC_WH_R, XXXXXXX,                   KC_PSCR, KC_F7,   KC_F8,   KC_F9,   KC_F12,
     KC_WH_D, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX,                   KC_SCRL, KC_F4,   KC_F5,   KC_F6,   KC_F11,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, _______, KC_PAUS, KC_F1,   KC_F2,   KC_F3,   KC_F10,
-    _______, _______, _______, KC_BTN3, KC_BTN2, KC_BTN1, KC_RALT, TO(QWE), XXXXXXX, XXXXXXX, XXXXXXX, _______
+    CTL_Z,   CTL_X,   CTL_C,   CTL_V,   XXXXXXX, _______, _______, KC_PAUS, KC_F1,   KC_F2,   KC_F3,   KC_F10,
+    _______, _______, _______, KC_BTN3, KC_BTN2, KC_BTN1, TO(QWE), BV_SPC,  XXXXXXX, XXXXXXX, XXXXXXX, _______
   ),
 #ifdef UNUSED
   [NAV] = LAYOUT(
     KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_INS,                    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, CAPSWRD,                   KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,
     _______, _______, _______, _______, KC_CAPS, _______, _______, XXXXXXX, KC_N,    XXXXXXX, XXXXXXX, XXXXXXX,
-    _______, _______, _______, _______, KC_BSPC, KC_TAB,  _______, TO(QWE), _______, _______, _______, _______
+    _______, _______, _______, _______, KC_BSPC, KC_TAB,  _______, BV_SPC,  _______, _______, _______, _______
     /* set default layer qwerty or colemak */
   ),
   [MOU] = LAYOUT( // mouse
@@ -136,13 +140,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // call Caps Word
     if (!process_caps_word(keycode, record)) { return false; }
 
+    // Get current mod and one-shot mod states.
+    const uint8_t mods = get_mods();
+    const uint8_t oneshot_mods = get_oneshot_mods();
+
     // macros
     switch (keycode) {
     case DB2:
         if (record->event.pressed) {
+          if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+            del_mods(MOD_MASK_SHIFT);
+            del_oneshot_mods(MOD_MASK_SHIFT);
+            SEND_STRING("DB2"); // when keycode DB2 is pressed
+            // if (mods & MOD_MASK_SHIFT)
+            //   set_mods(MOD_MASK_SHIFT);
+          }
+          else {
             SEND_STRING("db2"); // when keycode DB2 is pressed
+          }
         } // else do nothing when keycode DB2 is released
         break;
+    case CTL_Z: if (record->event.pressed) { SEND_STRING(SS_LCTL(SS_TAP(X_Z))); } break;
+    case CTL_X: if (record->event.pressed) { SEND_STRING(SS_LCTL(SS_TAP(X_X))); } break;
+    case CTL_C: if (record->event.pressed) { SEND_STRING(SS_LCTL(SS_TAP(X_C))); } break;
+    case CTL_V: if (record->event.pressed) { SEND_STRING(SS_LCTL(SS_TAP(X_V))); } break;
     } // end switch
 
     return true;
