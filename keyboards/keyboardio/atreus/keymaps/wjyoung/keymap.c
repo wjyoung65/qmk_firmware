@@ -73,15 +73,18 @@
 #define BV_SFT   OSM(MOD_LSFT)
 #define BV_SPC   KC_SPC  // OSM(MOD_LCTL)
 
+
 ////
 // Macro enums
 ////
 enum custom_keycodes {
-    DB2 = SAFE_RANGE,  // spit out "db2"
-    CTL_Z,
-    CTL_X,
-    CTL_C,
-    CTL_V
+    DB2 = SAFE_RANGE  // spit out "db2"
+  , CTL_Z
+  , CTL_X
+  , CTL_C
+  , CTL_V
+  , TAB_PRV
+  , TAB_NXT
 };
 
 ////
@@ -96,36 +99,36 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESC,  KC_LALT, KC_LGUI, BV_SFT,  TO(SYM), KC_BSPC, BV_CTRL, BV_SPC,  KC_MINS, KC_QUOT, DB2,     KC_ENT
   ),
   [SYM] = LAYOUT(
-    KC_ESC,  KC_AT,   KC_UP,   KC_DLR,  KC_PERC,                   KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL,
-    KC_TAB,  KC_LEFT, KC_DOWN, KC_RGHT, KC_CIRC,                   KC_PIPE, KC_DQUO, KC_LCBR, KC_RCBR, KC_SCLN,
-    KC_GRV,  KC_EXLM, KC_HASH, KC_EQL,  KC_PLUS, _______, _______, KC_N,    KC_MINS, KC_LBRC, KC_RBRC, KC_TILD,
-    _______, _______, _______, BV_SFT,  TO(NUM), KC_BSPC, TO(QWE), BV_SPC,  KC_MINS, KC_QUOT, KC_EXLM, _______
+    KC_ESC,  KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
+    KC_TAB,  KC_SCLN, KC_COLN, KC_PLUS, KC_CIRC,                   KC_PIPE, KC_DQUO, KC_LCBR, KC_RCBR, KC_ENT,
+    KC_GRV,  KC_EXLM, KC_EQL,  KC_MINS, KC_BSLS, _______, _______, KC_N,    KC_UNDS, KC_LBRC, KC_RBRC, KC_TILD,
+    _______, _______, _______, _______, TO(NUM), _______, KC_LALT, TO(QWE), _______, _______, DB2,     _______
   ),
   [NUM] = LAYOUT(
-    KC_ESC,  KC_HOME, KC_UP,   KC_END,  KC_PGUP,                   KC_ASTR, KC_7,    KC_8,    KC_9,    KC_MINS,
-    KC_TAB,  KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN,                   XXXXXXX, KC_4,    KC_5,    KC_6,    KC_PLUS,
-    CTL_Z,   CTL_X,   CTL_C,   CTL_V,   CAPSWRD, XXXXXXX, XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    KC_SLSH,
-    _______, _______, _______, BV_SFT,  TO(FUN), KC_BSPC, TO(QWE), BV_SPC,  KC_0,    KC_0,    KC_DOT,  _______
+    KC_ESC,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_ASTR, KC_7,    KC_8,    KC_9,    KC_BSPC,
+    KC_TAB,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_PLUS, KC_4,    KC_5,    KC_6,    KC_ENT,
+    TO(FUN), TO(MOU), XXXXXXX, XXXXXXX, CAPSWRD, XXXXXXX, XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    KC_SLSH,
+    _______, _______, _______, _______, TO(NUM), _______, KC_LALT, TO(QWE), KC_0,    KC_0,    KC_DOT,  _______
   ),
   [FUN] = LAYOUT(
-    KC_WH_U, KC_WH_L, KC_MS_U, KC_WH_R, XXXXXXX,                   KC_PSCR, KC_F7,   KC_F8,   KC_F9,   KC_F12,
-    KC_WH_D, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX,                   KC_SCRL, KC_F4,   KC_F5,   KC_F6,   KC_F11,
-    CTL_Z,   CTL_X,   CTL_C,   CTL_V,   XXXXXXX, _______, _______, KC_PAUS, KC_F1,   KC_F2,   KC_F3,   KC_F10,
-    _______, _______, _______, KC_BTN3, KC_BTN2, KC_BTN1, TO(QWE), BV_SPC,  XXXXXXX, XXXXXXX, XXXXXXX, _______
+    KC_ESC,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_PSCR, KC_F7,   KC_F8,   KC_F9,   KC_F12,
+    KC_TAB,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_SCRL, KC_F4,   KC_F5,   KC_F6,   KC_F11,
+    XXXXXXX, TO(MOU), XXXXXXX, XXXXXXX, XXXXXXX, _______, _______, KC_PAUS, KC_F1,   KC_F2,   KC_F3,   KC_F10,
+    _______, _______, _______, _______, TO(NUM), _______, KC_LALT, TO(QWE), XXXXXXX, XXXXXXX, XXXXXXX, _______
+  ),
+  [MOU] = LAYOUT( // mouse navigation
+    KC_ESC,  KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U,                   XXXXXXX, TAB_PRV, TAB_NXT, XXXXXXX, XXXXXXX,
+    KC_TAB,  KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX,
+    TO(FUN), KC_BTN3, KC_BTN2, KC_BTN1, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    _______, _______, _______, _______, TO(NUM), _______, KC_LALT, TO(QWE), XXXXXXX, XXXXXXX, XXXXXXX, _______
   ),
 #ifdef UNUSED
   [NAV] = LAYOUT(
     KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_INS,                    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, CAPSWRD,                   KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,
     _______, _______, _______, _______, KC_CAPS, _______, _______, XXXXXXX, KC_N,    XXXXXXX, XXXXXXX, XXXXXXX,
-    _______, _______, _______, _______, KC_BSPC, KC_TAB,  _______, BV_SPC,  _______, _______, _______, _______
+    _______, _______, _______, _______, TO(NUM), _______, _______, TO(QWE), _______, _______, _______, _______
     /* set default layer qwerty or colemak */
-  ),
-  [MOU] = LAYOUT( // mouse
-    KC_WH_U, KC_WH_L, KC_MS_U, KC_WH_R, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    KC_WH_D, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    DF(QWE), _______, _______, KC_BTN3, KC_BTN2, KC_BTN1, _______, TO(QWE), _______, _______, _______, _______
   ),
 #endif
 };
@@ -164,6 +167,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case CTL_X: if (record->event.pressed) { SEND_STRING(SS_LCTL(SS_TAP(X_X))); } break;
     case CTL_C: if (record->event.pressed) { SEND_STRING(SS_LCTL(SS_TAP(X_C))); } break;
     case CTL_V: if (record->event.pressed) { SEND_STRING(SS_LCTL(SS_TAP(X_V))); } break;
+    case TAB_NXT:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTL(SS_TAP(X_TAB)));
+      }
+      break;
+    case TAB_PRV:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_TAB))));
+      }
+      break;
     } // end switch
 
     return true;
