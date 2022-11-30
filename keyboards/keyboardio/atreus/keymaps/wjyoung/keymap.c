@@ -83,7 +83,7 @@ enum custom_keycodes {
 // #define LT_SCLN LT(MOU, KC_SCLN)
 
 // Left-side bottom corner key: hold for layer shift, tap for escape
-#define BT_ESC  LCTL_T(KC_ESC) // for one-hand ctl-c ctl-v
+#define BT_ESC  LCTL_T(KC_ESC)  // for one-hand ctl-c ctl-v
 
 // Right-side bottom corner key: hold for shift, tap for enter
 // #define BT_ENT  RCTL_T(KC_ENT)
@@ -104,18 +104,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
     KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,
     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_GRV,  KC_BSLS, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-    BT_ESC,  KC_LALT, BT_TAB,  BV_SFT,  TO(SYM), LT_BSPC, BV_LCTL, BV_SPC,  KC_MINS, KC_QUOT, DB2,     KC_ENT
+    BT_ESC,  KC_LALT, BT_TAB,  BV_SFT,  TO(SYM), CK_BSDI, BV_LCTL, BV_SPC,  KC_MINS, KC_QUOT, DB2,     KC_ENT
   ),
   [SYM] = LAYOUT(
-    KC_ESC,  KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_PIPE,
-    KC_TAB,  KC_SCLN, KC_COLN, KC_PLUS, KC_CIRC,                   KC_PIPE, KC_DQUO, KC_LCBR, KC_RCBR, KC_QUOT,
-    KC_GRV,  KC_EXLM, KC_EQL,  KC_MINS, KC_BSLS, _______, _______, KC_N,    KC_UNDS, KC_LBRC, KC_RBRC, KC_TILD,
+    KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_PIPE,
+    CAPSWRD, KC_SCLN, KC_COLN, KC_PLUS, KC_CIRC,                   KC_PIPE, KC_DQUO, KC_LCBR, KC_RCBR, KC_QUOT,
+    TO(FUN), TO(MOU), KC_EQL,  KC_MINS, KC_BSLS, _______, _______, KC_N,    KC_GRV,  KC_LBRC, KC_RBRC, KC_TILD,
     _______, _______, _______, _______, TO(NUM), _______, _______, TO(QWE), _______, _______, DB2,     _______
   ),
   [NUM] = LAYOUT(
-    KC_ESC,  XXXXXXX, KC_E,    XXXXXXX, CAPSWRD,                   KC_ASTR, KC_7,    KC_8,    KC_9,    KC_MINS,
-    KC_A,    XXXXXXX, KC_D,    XXXXXXX, XXXXXXX,                   XXXXXXX, KC_4,    KC_5,    KC_6,    KC_PLUS,
-    TO(FUN), TO(MOU), KC_C,    XXXXXXX, KC_B,    XXXXXXX, XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    KC_SLSH,
+    KC_EXLM, KC_AT,   KC_E,    KC_DLR,  KC_PERC,                   KC_ASTR, KC_7,    KC_8,    KC_9,    KC_MINS,
+    KC_A,    XXXXXXX, KC_D,    KC_PLUS, XXXXXXX,                   XXXXXXX, KC_4,    KC_5,    KC_6,    KC_PLUS,
+    TO(FUN), TO(MOU), KC_C,    KC_MINS, KC_B,    XXXXXXX, XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    KC_SLSH,
     _______, _______, _______, _______, TO(SYM), _______, _______, TO(QWE), KC_0,    KC_0,    KC_DOT,  _______
   ),
   [FUN] = LAYOUT(
@@ -125,8 +125,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, TO(NUM), _______, _______, TO(QWE), XXXXXXX, XXXXXXX, XXXXXXX, _______
   ),
   [MOU] = LAYOUT( // mouse navigation
-    KC_ESC,  KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U,                   XXXXXXX, TAB_PRV, TAB_NXT, XXXXXXX, XXXXXXX,
-    KC_TAB,  KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_SCLN,
+    KC_PGUP, KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U,                   KC_HOME, TAB_PRV, TAB_NXT, KC_END,  CAPSWRD,
+    KC_PGDN, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_SCLN,
     TO(FUN), KC_BTN3, KC_BTN2, KC_BTN1, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     _______, _______, _______, _______, TO(NUM), _______, _______, TO(QWE), XXXXXXX, XXXXXXX, XXXXXXX, _______
   ),
