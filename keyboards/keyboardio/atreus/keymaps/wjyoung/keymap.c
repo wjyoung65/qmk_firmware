@@ -12,6 +12,9 @@
 //     - todo: add arrow keys to the symbols layer because modern IDEs often auto-pair quotes, braces, etc.
 //   - less reliance on home row modifiers
 
+// qmk compile -kb keyboardio/atreus -km wjyoung
+// sudo avrdude -p atmega32u4 -c avr109 -U flash:w:keyboardio_atreus_wjyoung.hex -P /dev/ttyACM0
+
 #include QMK_KEYBOARD_H
 
 #ifdef USING_BSDI
@@ -39,46 +42,38 @@ enum custom_keycodes {
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 #define QWE 0  // default base layer: qwerty
-#define SYM 1
-#define NUM 2
-#define MOU 3  // mouse and nav
-#define FUN 4
+#define NUM 1
+#define FUN 2
 
 // Some handy macros to keep the keymaps clean and easier to maintain
 
 // Bottom row modifiers for qwerty
-#define QT_X  LALT_T(KC_X)
-#define QT_C  LSFT_T(KC_C)
-#define QT_V  LCTL_T(KC_V)
+#define QT_X     LALT_T(KC_X)
+#define QT_C     LSFT_T(KC_C)
+#define QT_V     LCTL_T(KC_V)
 
+#define QT_M     RCTL_T(KC_M)
+#define QT_COMM  RSFT_T(KC_COMM)
 #define QT_DOT   LALT_T(KC_DOT)
-#define QT_COMM  LSFT_T(KC_COMM)
-#define QT_M     LCTL_T(KC_M)
+
+// Bottom row modifiers for numbers layer
+#define QT_MINS  LALT_T(KC_MINS)
+#define QT_EQL   LSFT_T(KC_EQL)
+#define QT_GRV   LCTL_T(KC_GRV)
+
+#define QT_BSLS  LCTL_T(KC_BSLS)
+#define QT_LBRC  LSFT_T(KC_LBRC)
+#define QT_RBRC  LALT_T(KC_RBRC)
 
 // left-side thumb keys: hold for a layer shift, tap for normal key
-// #define LT_DEL  LT(FUN, KC_DEL)
-// #define LT_QUOT LT(NUM, KC_QUOT)
-#define LT_BSPC LT(MOU, KC_BSPC)
-// #define LT_TAB  LT(SYM, KC_TAB)
+#define LT_DEL  LT(FUN, KC_DEL)
+#define LT_ESC  LT(NUM, KC_ESC)
+#define LT_TAB  KC_TAB
 
 // right-side thumb keys
-// #define LT_MINS LT(NAV, KC_MINS)
-// #define LT_SPC  LT(NAV, KC_SPC)
-// #define LT_QUOT LT(MOU, KC_QUOT)
-// #define LT_SCLN LT(MOU, KC_SCLN)
-
-// Left-side bottom corner key: hold for layer shift, tap for escape
-#define BT_ESC  LCTL_T(KC_ESC)  // for one-hand ctl-c ctl-v
-
-// Right-side bottom corner key: hold for shift, tap for enter
-// #define BT_ENT  RCTL_T(KC_ENT)
-
-// Tap for tab, hold for Super (left gui)
-#define BT_TAB   LGUI_T(KC_TAB)
-
-#define BV_LCTL  OSM(MOD_LCTL)
-#define BV_SFT   OSM(MOD_LSFT)
-#define BV_SPC   KC_SPC  // OSM(MOD_LCTL)
+#define LT_ENT  KC_ENT
+#define LT_SPC  LT(NUM, KC_SPC)
+#define LT_BSPC LT(FUN, KC_BSPC)
 
 ////
 // Keymap and layers
@@ -89,41 +84,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
     KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,
     KC_Z,    QT_X,    QT_C,    QT_V,    KC_B,    KC_GRV,  KC_BSLS, KC_N,    QT_M,    QT_COMM, QT_DOT,  KC_SLSH,
-    MY_ESC,  KC_LALT, BT_TAB,  BV_SFT,  TO(SYM), LT_BSPC, BV_LCTL, BV_SPC,  KC_MINS, KC_QUOT, DB2,     MY_ENT
-  ),
-  [SYM] = LAYOUT(
-    KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_PIPE,
-    CAPSWRD, KC_SCLN, KC_COLN, KC_PLUS, KC_CIRC,                   KC_PIPE, KC_DQUO, KC_LCBR, KC_RCBR, KC_QUOT,
-    TO(FUN), TO(MOU), KC_EQL,  KC_MINS, KC_BSLS, _______, _______, KC_N,    KC_GRV,  KC_LBRC, KC_RBRC, KC_TILD,
-    _______, _______, _______, _______, TO(NUM), _______, _______, TO(QWE), _______, _______, _______, _______
+    KC_LCTL, KC_LGUI, KC_LALT, LT_DEL,  LT_ESC,  LT_TAB,  LT_ENT,  LT_SPC,  LT_BSPC, KC_MINS, DB2,     KC_RSFT
   ),
   [NUM] = LAYOUT(
-    KC_EXLM, KC_AT,   KC_E,    KC_DLR,  KC_PERC,                   KC_ASTR, KC_7,    KC_8,    KC_9,    KC_MINS,
-    KC_A,    XXXXXXX, KC_D,    KC_PLUS, XXXXXXX,                   XXXXXXX, KC_4,    KC_5,    KC_6,    KC_PLUS,
-    TO(FUN), TO(MOU), KC_C,    KC_MINS, KC_B,    XXXXXXX, XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    KC_SLSH,
-    _______, _______, _______, _______, TO(SYM), _______, _______, TO(QWE), KC_0,    KC_DOT,  _______, _______
-  ),
-  [MOU] = LAYOUT(  // mouse navigation
-    KC_PGUP, KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U,                   KC_HOME, TAB_PRV, TAB_NXT, KC_END,  XXXXXXX,
-    KC_PGDN, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_SCLN,
-    TO(FUN), KC_BTN3, KC_BTN2, KC_BTN1, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    _______, _______, _______, _______, TO(SYM), _______, _______, TO(QWE), XXXXXXX, XXXXXXX, XXXXXXX, _______
+    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,   
+    KC_EXLM, KC_LT,   KC_GT,   KC_TILD, CAPSWRD,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_QUOT,
+    KC_PLUS, QT_MINS, QT_EQL,  QT_GRV,  XXXXXXX, _______, _______, KC_UNDS, QT_BSLS, QT_LBRC, QT_RBRC, _______,
+    _______, _______, _______, _______, _______, _______, _______, KC_SPC,  KC_BSPC, _______, _______, _______
   ),
   [FUN] = LAYOUT(
-    KC_ESC,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_PSCR, KC_F7,   KC_F8,   KC_F9,   KC_F12,
-    KC_TAB,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_SCRL, KC_F4,   KC_F5,   KC_F6,   KC_F11,
-    XXXXXXX, TO(MOU), XXXXXXX, XXXXXXX, XXXXXXX, _______, _______, KC_PAUS, KC_F1,   KC_F2,   KC_F3,   KC_F10,
-    _______, _______, _______, _______, TO(NUM), _______, _______, TO(QWE), XXXXXXX, XXXXXXX, XXXXXXX, _______
+    KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,
+    KC_CAPS, XXXXXXX, XXXXXXX, KC_PGUP, CAPSWRD,                   KC_SCRL, XXXXXXX, XXXXXXX, XXXXXXX, KC_F11,
+    XXXXXXX, XXXXXXX, XXXXXXX, KC_PGDN, XXXXXXX, _______, _______, KC_PAUS, XXXXXXX, XXXXXXX, XXXXXXX, KC_F12,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
   ),
-#ifdef UNUSED
-  [NAV] = LAYOUT(
-    KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_INS,                    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, CAPSWRD,                   KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,
-    _______, _______, _______, _______, KC_CAPS, _______, _______, XXXXXXX, KC_N,    XXXXXXX, XXXXXXX, XXXXXXX,
-    _______, _______, _______, _______, TO(NUM), _______, _______, TO(QWE), _______, _______, _______, _______
-    /* set default layer qwerty or colemak */
-  ),
-#endif
 };
 
 
@@ -133,9 +107,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ///
 void return_to_base_layer(void)
 {
-  layer_off(SYM);
+//  layer_off(SYM);
   layer_off(NUM);
-  layer_off(MOU);
+//  layer_off(MOU);
   layer_off(FUN);
   layer_on(QWE);
 }
