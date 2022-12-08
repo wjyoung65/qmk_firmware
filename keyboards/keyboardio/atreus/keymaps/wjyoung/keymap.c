@@ -46,31 +46,14 @@ enum custom_keycodes {
 
 // Some handy macros to keep the keymaps clean and easier to maintain
 
-// Left-side home row keys: hold for a modifier, tap for normal key
-// #define MT_A  LGUI_T(KC_A)
-// #define MT_R  LALT_T(KC_R)
-// #define MT_S  LSFT_T(KC_S)
-// #define MT_T  LCTL_T(KC_T)
+// Bottom row modifiers for qwerty
+#define QT_X  LALT_T(KC_X)
+#define QT_C  LSFT_T(KC_C)
+#define QT_V  LCTL_T(KC_V)
 
-// .. for qwerty
-// #define QT_A  LCTL_T(KC_A)
-// #define QT_A  LGUI_T(KC_A)
-// #define QT_S  LALT_T(KC_S)
-// #define QT_D  LSFT_T(KC_D)
-// #define QT_F  LCTL_T(KC_F)
-//
-// Right-side home row keys: hold for a modifier, tap for normal key
-// #define MT_N  RCTL_T(KC_N)
-// #define MT_E  RSFT_T(KC_E)
-// #define MT_I  LALT_T(KC_I)
-// #define MT_O  RGUI_T(KC_O)
-
-// .. for qwerty
-// #define QT_J    RCTL_T(KC_J)
-// #define QT_K    RSFT_T(KC_K)
-// #define QT_L    RALT_T(KC_L)
-// #define QT_SCLN RGUI_T(KC_SCLN)
-// #define QT_SCLN RCTL_T(KC_SCLN)
+#define QT_DOT   LALT_T(KC_DOT)
+#define QT_COMM  LSFT_T(KC_COMM)
+#define QT_M     LCTL_T(KC_M)
 
 // left-side thumb keys: hold for a layer shift, tap for normal key
 // #define LT_DEL  LT(FUN, KC_DEL)
@@ -105,7 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [QWE] = LAYOUT(
     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
     KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,
-    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_GRV,  KC_BSLS, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
+    KC_Z,    QT_X,    QT_C,    QT_V,    KC_B,    KC_GRV,  KC_BSLS, KC_N,    QT_M,    QT_COMM, QT_DOT,  KC_SLSH,
     MY_ESC,  KC_LALT, BT_TAB,  BV_SFT,  TO(SYM), LT_BSPC, BV_LCTL, BV_SPC,  KC_MINS, KC_QUOT, DB2,     MY_ENT
   ),
   [SYM] = LAYOUT(
