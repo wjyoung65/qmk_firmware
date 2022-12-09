@@ -1,16 +1,4 @@
-// This is the personal keymap of Wayne Young implementing a variant
-// of the Ben Valleck layout, that uses
-//   - layer locks via thumb keys
-//   - right-left thumb combo that returns to layer 0, always
-//   - one shot modifiers on shift and control
-// Rationale for switching from Miryoku to this layout:
-//   - avoid holding down layer shift or shift key to reduce thumb strain
-//     by using one-shot modifiers and layer lock rather than shift
-//   - put more symbols on a single layer to avoid having to switch back and forth
-//     when coding
-//     - for example, ("\n"); is slow in Miryoku
-//     - todo: add arrow keys to the symbols layer because modern IDEs often auto-pair quotes, braces, etc.
-//   - less reliance on home row modifiers
+// This is the personal keymap of Wayne Young
 
 // qmk compile -kb keyboardio/atreus -km wjyoung
 // sudo avrdude -p atmega32u4 -c avr109 -U flash:w:keyboardio_atreus_wjyoung.hex -P /dev/ttyACM0
@@ -29,15 +17,6 @@ static bool ins_state = true;
 ////
 enum custom_keycodes {
     DB2 = SAFE_RANGE  // spit out "db2"
-  , CTL_Z
-  , CTL_X
-  , CTL_C
-  , CTL_V
-  , TAB_PRV
-  , TAB_NXT
-  , CK_BSDI  // Backspace/Delete/Insert from lms_ace01
-  , MY_ENT   // return to base layer when enter is pressed
-  , MY_ESC   // return to base layer when escape is pressed
 };
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
@@ -105,14 +84,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Macro implementations
 ////
 ///
-void return_to_base_layer(void)
-{
-//  layer_off(SYM);
-  layer_off(NUM);
-//  layer_off(MOU);
-  layer_off(FUN);
-  layer_on(QWE);
-}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
@@ -140,101 +111,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           return false; // end further processing of this key
         } // else do nothing when keycode DB2 is released
         break;
-    case CTL_Z: if (record->event.pressed) { SEND_STRING(SS_LCTL(SS_TAP(X_Z))); } break;
-    case CTL_X: if (record->event.pressed) { SEND_STRING(SS_LCTL(SS_TAP(X_X))); } break;
-    case CTL_C: if (record->event.pressed) { SEND_STRING(SS_LCTL(SS_TAP(X_C))); } break;
-    case CTL_V: if (record->event.pressed) { SEND_STRING(SS_LCTL(SS_TAP(X_V))); } break;
-    case TAB_NXT:
-      if (record->event.pressed) {
-        SEND_STRING(SS_LCTL(SS_TAP(X_TAB)));
-      }
-      return false;  // end further processing of this key
-      break;
-    case TAB_PRV:
-      if (record->event.pressed) {
-        SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_TAB))));
-      }
-      return false;  // end further processing of this key
-      break;
-#ifdef USING_BSDI
-// Not using this b/c if I want to fix typos when CAPSWRD is on
-    case CK_BSDI: {  // Backspace/Delete/Insert
-      static bool delkey_registered = false;
-
-      if (record->event.pressed) {
-        // Ctrl   -> Insert/Overwrite Mode
-        // Shift  -> Delete
-        // Normal -> Backspace
-        if ((mod_state | osm_state) & MOD_MASK_CTRL) {
-          del_mods(MOD_MASK_CTRL);
-          del_oneshot_mods(MOD_MASK_CTRL);
-
-          tap_code(KC_INS);
-
-          set_mods(mod_state);
-          set_oneshot_mods(osm_state);
-
-          ins_state = !ins_state;
-        } else if ((mod_state | osm_state) & MOD_MASK_SHIFT) {
-          delkey_registered = true;
-
-          del_mods(MOD_MASK_SHIFT);
-          del_oneshot_mods(MOD_MASK_SHIFT);
-
-          register_code(KC_DEL);
-
-          set_mods(mod_state);
-          set_oneshot_mods(osm_state);
-        } else {
-          register_code(KC_BSPC);
-        }
-      } else {
-        // Unregister keycode sent after the release of CK_BSDI
-        if (delkey_registered) {
-          unregister_code(KC_DEL);
-          delkey_registered = false;
-        } else {
-          unregister_code(KC_BSPC);
-        }
-      }
-      return false;  // end further processing of this key
-      break;
-    } // end case CK_BSDI
-#endif
-    case MY_ENT: {
-      if (record->event.pressed) {
-        return_to_base_layer();
-        tap_code(KC_ENT);
-      }
-      return false;
-      break;
-    }
-    case MY_ESC: {
-      if (record->event.pressed) {
-        return_to_base_layer();
-        tap_code(KC_ESC);
-      }
-      return false;
-      break;
-    }
     }  // end switch
 
     return true;
 }
 
-#ifdef DID_NOT_WORK_AS_EXPECTED
-bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    // Keys where I want "tap, then hold" to repeat the tap action.
-    // Key repeating is useful on hjkl in Vim for navigation.
-    case KC_H:
-    case KC_J:
-    case KC_K:
-    case KC_L:
-      return false;
-    // Keys where I don't want key repeating.
-    default:
-      return true;
-  }
-}
-#endif
