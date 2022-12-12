@@ -1,7 +1,6 @@
 // This is the personal keymap of Wayne Young for the Cantor keyboard
 // SPDX-License-Identifier: GPL-2.0
 //
-// qmk compile -kb cantor -km wjyoung
 // qmk flash -kb cantor -km wjyoung
 
 #include QMK_KEYBOARD_H
